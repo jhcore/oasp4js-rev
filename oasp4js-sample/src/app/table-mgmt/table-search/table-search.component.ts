@@ -3,7 +3,7 @@ import { TableService } from '../table.service';
 
 @Component({
   selector: 'table-mgmt-search',
-  templateUrl: './table-search.component.html'
+  templateUrl: './app/table-mgmt/table-search/table-search.component.html'
 })
 export class TableSearchComponent { 
 

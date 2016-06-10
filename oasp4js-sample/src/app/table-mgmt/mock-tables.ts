@@ -1,14 +1,9 @@
-import { Table } from './hero';
+import { Table } from './table';
 
-export var TABLES: Table[] = [
-  { 'id': 1, 'name': 'Table1' },
-  { 'id': 2, 'name': 'Table2' },
-  { 'id': 3, 'name': 'Table3' },
-  { 'id': 4, 'name': 'Table4' },
-  { 'id': 5, 'name': 'Table5' },
-  { 'id': 6, 'name': 'Table6' },
-  { 'id': 7, 'name': 'Table7' },
-  { 'id': 8, 'name': 'Table8' },
-  { 'id': 9, 'name': 'Table9' },
-  { 'id': 10, 'name': 'Table10' }
-];
+export var TABLES: Array<Table> = [
+  new Table(1, 'Table1', 'RESERVED'),
+  new Table(2, 'Table2', 'OCCUPIED'),
+  new Table(3, 'Table3', 'RESERVED'),
+  new Table(4, 'Table4', 'OCCUPIED'),
+  new Table(5, 'Table5', 'OCCUPIED'), 
+];  

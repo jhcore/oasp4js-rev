@@ -6940,3 +6940,20 @@ body .growl-container.growl-fixed.top-right {
   top: -1px;
   right: 0px;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #F9F9F9}
+
+tr.selected {
+    background-color: #5BC0DE;
+    color: #FFF;
+}
