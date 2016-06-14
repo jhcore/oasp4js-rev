@@ -30,24 +30,24 @@
                 </div> 
                <div class="row">
                     <div class="col-md-1">
-                        <label >Order Positions:</label>&nbsp;
+                        <label>Order Positions:</label>&nbsp;
                     </div>
                     <div class="col-md-2" > 
-                       <select id="positions" [ngModel]="selectedOption" (ngModelChange)="onChange($event)"> 
-                            <option value="" disabled selected hidden="true">Select offer...</option>
-                            <option [value]="opt" *ngFor="let opt of OFFERS">{{opt.description}}</option>
+                       <select (change)="onChange($event)" id="positions" ([ngModel])="selectedOption"> 
+                            <option disabled selected hidden="true">Select offer...</option>
+                            <option [ngValue]="opt" *ngFor="let opt of OFFERS" >{{opt.description}}</option>
                         </select>
                     </div>
                     <div class="col-md-1">
-                        <button class="btn btn-sm btn-primary" (click)="addPosition()"
-                                >+Add
+                        <button [disabled]="!isSelectedOption()" class="btn btn-sm btn-primary" (click)="addPosition()">
+                        +Add
                         </button>
                         &nbsp;
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="raw-table"> <!-- TODO -> OrderBy -->
+                        <table id="OrderPositions" class="raw-table"> <!-- TODO -> OrderBy -->
                             <tr> 
                                 <th field-name="id" cell-width="7em">Number</th>
                                 <th field-name="offerName">Title</th>
@@ -55,26 +55,36 @@
                                 <th field-name="price">Price</th> <!-- TODO -> Price function -->
                                 <th field-name="comment">Comment</th>
                             <tr>    
-                            <tr *ngFor="let offer of OFFERS" (click)="onClick(offer)" selected> 
+                            <tr *ngFor="let position of POSITIONS" (click)="onItemClick(position)" selected> 
                                 <td> 
-                                  {{offer.id}}  
+                                  {{position.number}}  
                                 </td>
                                 <td>
-                                  {{offer.name}} 
+                                  {{position.offer.name}} 
                                 </td>
                                 <td> 
-                                  {{offer.status}} 
+                                  {{getStatus(position.state)}} 
                                 </td>
                                 <td>
-                                  {{offer.price}}  
+                                  {{position.offer.price}}  
                                 </td>
                                 <td>
-                                  {{offer.description}} 
+                                  {{position.comment}} 
                                 </td>
                             </tr>  
                         </table> 
                         <div class="btn-group btn-group-sm" role="group">   
-                            <button-bar [buttonDefs]=buttonDefs></button-bar> 
+                            <!--<button-bar [buttonDefs]=buttonDefs ></button-bar> -->
+                            <div class="btn-group btn-group-sm" role="group">
+    <button *ngFor="let buttonDef of buttonDefs"
+            (click)="onButtonClick(buttonDef)"
+            [disabled]="isButtonDisabled(buttonDef)"
+            class="btn btn-sm btn-default">
+            <!-- TODO: Include translatable -->
+        <span data-ng-hide="isLabelTranslatable" data-ng-bind="buttonDef.label"></span>
+        <span data-ng-show="isLabelTranslatable" translate>{{buttonDef.label}}</span>
+    </button>
+</div>
                         </div> 
                     </div>
                 </div>

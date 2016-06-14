@@ -10,7 +10,7 @@ export class ButtonBarComponent {
 
 	onButtonClick(buttonDef) { 
         if (buttonDef && this.isFunction(buttonDef.onClick)) {
-            buttonDef.onClick.apply(undefined, arguments);
+            buttonDef.onClick.apply(this);
         }
     }
 

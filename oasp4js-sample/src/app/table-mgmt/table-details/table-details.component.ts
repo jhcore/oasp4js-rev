@@ -4,8 +4,8 @@ import { TableService } from '../table.service';
 import { OfferService } from '../../offer-mgmt/offer.service';  
 import { TABLES } from '../mock-tables';
 import { Table } from '../table';
-import { Offer } from '../../offer-mgmt/offer';
-import { OFFERS } from '../../offer-mgmt/mock-offers';
+import { Offer, Position } from '../../offer-mgmt/offer';
+import { OFFERS, POSITIONS } from '../../offer-mgmt/mock-offers';
 import { ButtonBarComponent } from '../../oasp/oasp-ui/button-bar/button-bar.component'
 
 /**
@@ -23,49 +23,65 @@ import { ButtonBarComponent } from '../../oasp/oasp-ui/button-bar/button-bar.com
 export class TableDetailsComponent implements OnInit { 
 	@Input() id:number; 
   
-	TABLE:Table; 
-  offer:Offer;
-  OFFERS = OFFERS; //Only for test  
-  selectedPositon:Offer;
+  position:Position;
+  TABLE:Table;
+
+  OFFERS = OFFERS; //Store Offers
+  POSITIONS = POSITIONS; //Store Positions
+
+  selectedPosition:Offer;
+  selectedOption:Offer;
 
   /*
   //TODO -> Pagination
-  public totalItems:number = 64;
-  public currentPage:number = 4;
+  totalItems:number = 64;
+  currentPage:number = 4;
 
-  public maxSize:number = 5;
-  public bigTotalItems:number = 175;
-  public bigCurrentPage:number = 1;
+  maxSize:number = 5;
+  bigTotalItems:number = 175;
+  bigCurrentPage:number = 1;
 
-  public setPage(pageNo:number):void {
+  setPage(pageNo:number):void {
     this.currentPage = pageNo;
   };
 
-  public pageChanged(event:any):void {
+  pageChanged(event:any):void {
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
   };
   */
 
-  selectedOption:number; 
+  onChange($event){ 
+    var e:any = event; 
+    this.selectedOption = OFFERS[e.target.selectedIndex - 1]; 
+  }
+
+  getStatus(state:number){ 
+    if(state == 1){
+      return "ORDEDER";
+    }else if (state == 2)
+      return "PREPARED";
+    else if(state == 3)
+      return "CANCELLED";
+    else
+    return "";
+  }
 
   noOrderAssigned:boolean;
   orderAssigned:boolean;
 
   tableService:TableService = new TableService(); //doesnt work...
 
-  constructor() {
+  constructor() { 
     this.checkOrderAsigned();   
   } 
   
-	ngOnInit() {   
-		this.TABLE = this.getTable(this.id); //Check why doesn't work
-    //this.TABLE = TABLES[this.id]; //Only for the test
+	ngOnInit() {    
+    this.TABLE = this.getTable(this.id);
 	}
  
-  addPosition(){
-    console.log("Option = " + this.selectedOption)
-    this.createOffer(this.selectedPositon);
+  addPosition(){  
+    this.createPosition(this.selectedOption);
   }
   
   checkOrderAsigned(){
@@ -73,32 +89,40 @@ export class TableDetailsComponent implements OnInit {
     this.orderAssigned = !this.noOrderAssigned;
   }
 
-  onClick(offer){
-    console.log("Click position = " + offer.id);
-    this.offer = offer;
+  onItemClick(position,$event){  
+    this.selectedPosition = position;
+    
+    var e:any = event;
+    var table:any = e.target.parentElement.parentElement;
+    //debugger
+
+    for(var i = 2; i < table.rows.length; i++){
+      table.rows[i].style.color = "";
+      table.rows[i].style.backgroundColor  = "";
+    }
+
+    e.target.parentElement.style.backgroundColor  = "#5BC0DE";
+    e.target.parentElement.style.color = "#FFF";  
   }
 
-  onChange(opt){
-    this.selectedPositon = opt;
+  isSelectedOption(){
+    return this.selectedOption != null;
   }
 
 	buttonDefs:Object = [ 
       {
           label: 'Remove',
-          onClick: function () {  
-          alert("Remove item");
-
-          //this.deleteTable(this.TABLE.id); //I dont know how can I use the methods of the father class
+          onClick: function (context) {   
+            this.deletePosition(this.selectedPosition); 
+            this.selectedPosition = null;
           },
-          isActive: function () {
-              return true;
+          isActive: function (context) {
+              return this.selectedPosition != null;
           }
       }
-  ];
-
-
-  //TEST BECAUSE THE CLASS SERVICE DOESN'T WORK
-   getTable(id:number){  
+  ]; 
+ 
+  getTable(id:number){  
     var result;
     for(var i = 0; i < TABLES.length; i++){
       if(i == id)
@@ -107,54 +131,61 @@ export class TableDetailsComponent implements OnInit {
     return result;
   }
 
-  getTables(){
-    return Promise.resolve(TABLES);
-  }
+  //TEST OF POSITIONS
 
-  getPaginatedTables(pagenumber:number, pagesize:number){
-    return TABLES; //There are not pages in this mock
-  }
-
-  createTable(id:number, table:Table){
-    table.id = id;
-    TABLES.push(table); 
-  }
-
-  deleteTable(id:number){ 
-    for(var i = 0; i < TABLES.length; i++){
-      if(i != id)
-        TABLES.splice(i, i+1);
-    }
-  }
-
-  //TEST OF OFFERS
-
-  getOffer(id:number){  
+  getPosition(id:number){  
     var result;
-    for(var i = 0; i < OFFERS.length; i++){
+    for(var i = 0; i < this.POSITIONS.length; i++){
       if(i == id)
-        result = OFFERS[i];
+        result = this.POSITIONS[i];
     }
     return result;
   }
 
-  createOffer(offer:Offer){
-    offer.id = OFFERS.length;
-    OFFERS.push(offer); 
+  createPosition(offer:Offer){  
+    var position:any = new Position(this.POSITIONS.length, offer,null,1,"");
+
+    this.POSITIONS.push(position);  
   }
 
-  deleteOffer(id:number){ 
-    for(var i = 0; i < OFFERS.length; i++){
-      if(i != id)
-        OFFERS.splice(i, i+1);
+  deletePosition(position:Position){ 
+    for(var i = 0; i < this.POSITIONS.length; i++){
+      if(this.POSITIONS[i].id == position.id){
+          this.POSITIONS.splice(i, 1);
+          break;
+      }
     }
   }
 
-  saveOffer(offer:Offer){
-    for(var i = 0; i < OFFERS.length; i++){
-      if(i != offer.id)
-        OFFERS.splice(i, i+1, offer);
+  savePosition(position:Position){
+  debugger
+    for(var i = 0; i < this.POSITIONS.length; i++){
+      if(i != position.id)
+        this.POSITIONS.splice(i, i+1, position);
     } 
   } 
+
+
+  //BUTTON
+  onButtonClick(buttonDef) { 
+        if (buttonDef && this.isFunction(buttonDef.onClick)) {
+            buttonDef.onClick.apply(this);
+        }
+    }
+
+    isButtonDisabled(buttonDef) { 
+        if (buttonDef && this.isFunction(buttonDef.isActive)) {
+            return !buttonDef.isActive.apply(this);
+        } 
+        if (buttonDef && this.isFunction(buttonDef.isNotActive)) {
+            return buttonDef.isNotActive.apply(this);
+        }
+        return true;
+    }
+
+    isFunction(functionToCheck) {
+   var getType = {};
+   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+  }
 
 } 

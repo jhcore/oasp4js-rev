@@ -14,3 +14,18 @@ export class Offer {
   }
 }
  
+export class Position{
+  id:number;
+  offer:Offer;
+  number:number;
+  comment:String;
+  state:number;
+
+  constructor(id:number, offer:Offer, number:number, state:number, comment:String){
+    this.id = id;
+    this.offer = offer;
+    this.number = number
+    this.comment = comment;
+    this.state = state;
+  }  
+}
