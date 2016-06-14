@@ -9,7 +9,7 @@ import { OFFERS, POSITIONS } from '../../offer-mgmt/mock-offers';
 import { ButtonBarComponent } from '../../oasp/oasp-ui/button-bar/button-bar.component'
 
 /**
-  1) THIS IS A TEST!!! THE DATES OF THIS TEST DOESN'T HAVE SENSE, I need to change it. 
+  1) THIS IS A TEST!!! THE DATA OF THIS TEST DOESN'T HAVE SENSE, I need to change it. 
   2) I need to fix the problems with the service classes because dont work.
   3) This component is a way to test the functionality of the Angular2 and define a structure for the future WebComponents 
 **/
