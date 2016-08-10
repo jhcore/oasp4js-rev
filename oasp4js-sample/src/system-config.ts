@@ -45,7 +45,8 @@ System.config({
   map: {
     '@angular': 'vendor/@angular',
     'rxjs': 'vendor/rxjs',
-    'main': 'main.js'
+    'main': 'main.js',
+    'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
   },
   packages: cliSystemConfigPackages
 });

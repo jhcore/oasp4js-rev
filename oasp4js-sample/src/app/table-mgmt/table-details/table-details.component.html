@@ -8,7 +8,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <label >Status</label>&nbsp;
+                    <label>Status</label>&nbsp;
                     <span>{{TABLE.status}}</span> <!-- change to state -->
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     <div class="col-md-12">
                         <table id="OrderPositions" class="raw-table"> <!-- TODO -> OrderBy -->
                             <tr> 
-                                <th field-name="id" cell-width="7em">Number</th>
+                                <th field-name="id" width="7em">Number</th>
                                 <th field-name="offerName">Title</th>
                                 <th field-name="state">Status</th>
                                 <th field-name="price">Price</th> <!-- TODO -> Price function -->
@@ -63,7 +63,7 @@
                                   {{position.offer.name}} 
                                 </td>
                                 <td> 
-                                  {{getStatus(position.state)}} 
+                                  {{position.state}} 
                                 </td>
                                 <td>
                                   {{position.offer.price}}  
@@ -76,15 +76,15 @@
                         <div class="btn-group btn-group-sm" role="group">   
                             <!--<button-bar [buttonDefs]=buttonDefs ></button-bar> -->
                             <div class="btn-group btn-group-sm" role="group">
-    <button *ngFor="let buttonDef of buttonDefs"
-            (click)="onButtonClick(buttonDef)"
-            [disabled]="isButtonDisabled(buttonDef)"
-            class="btn btn-sm btn-default">
-            <!-- TODO: Include translatable -->
-        <span data-ng-hide="isLabelTranslatable" data-ng-bind="buttonDef.label"></span>
-        <span data-ng-show="isLabelTranslatable" translate>{{buttonDef.label}}</span>
-    </button>
-</div>
+                                <button *ngFor="let buttonDef of buttonDefs"
+                                        (click)="onButtonClick(buttonDef)"
+                                        [disabled]="isButtonDisabled(buttonDef)"
+                                        class="btn btn-sm btn-default">
+                                        <!-- TODO: Include translatable -->
+                                    <span data-ng-hide="isLabelTranslatable" data-ng-bind="buttonDef.label"></span>
+                                    <span data-ng-show="isLabelTranslatable" translate>{{buttonDef.label}}</span>
+                                </button>
+                            </div>
                         </div> 
                     </div>
                 </div>

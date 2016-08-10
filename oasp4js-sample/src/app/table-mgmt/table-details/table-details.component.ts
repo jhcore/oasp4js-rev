@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Injectable,ElementRef } from '@angular/core';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common'; 
 import { TableService } from '../table.service'; 
 import { OfferService } from '../../offer-mgmt/offer.service';  
+import { PositionService } from '../../offer-mgmt/position.service';  
 import { TABLES } from '../mock-tables';
 import { Table } from '../table';
 import { Offer, Position } from '../../offer-mgmt/offer';
@@ -9,7 +10,7 @@ import { OFFERS, POSITIONS } from '../../offer-mgmt/mock-offers';
 import { ButtonBarComponent } from '../../oasp/oasp-ui/button-bar/button-bar.component'
 
 /**
-  1) THIS IS A TEST!!! THE DATES OF THIS TEST DOESN'T HAVE SENSE, I need to change it. 
+  1) THIS IS A TEST!!! THE DATA OF THIS TEST DOESN'T HAVE SENSE, I need to change it. 
   2) I need to fix the problems with the service classes because dont work.
   3) This component is a way to test the functionality of the Angular2 and define a structure for the future WebComponents 
 **/
@@ -29,7 +30,7 @@ export class TableDetailsComponent implements OnInit {
   OFFERS = OFFERS; //Store Offers
   POSITIONS = POSITIONS; //Store Positions
 
-  selectedPosition:Offer;
+  selectedPosition:Position;
   selectedOption:Offer;
 
   /*
@@ -55,33 +56,23 @@ export class TableDetailsComponent implements OnInit {
     var e:any = event; 
     this.selectedOption = OFFERS[e.target.selectedIndex - 1]; 
   }
-
-  getStatus(state:number){ 
-    if(state == 1){
-      return "ORDEDER";
-    }else if (state == 2)
-      return "PREPARED";
-    else if(state == 3)
-      return "CANCELLED";
-    else
-    return "";
-  }
-
+ 
   noOrderAssigned:boolean;
   orderAssigned:boolean;
 
-  tableService:TableService = new TableService(); //doesnt work...
-
-  constructor() { 
+ 
+  constructor(private _tableService: TableService, private _positionService: PositionService) { 
     this.checkOrderAsigned();   
-  } 
+    //this._tableService.getTable(this.id).then(table => this.TABLE = table);
+  }  
   
 	ngOnInit() {    
-    this.TABLE = this.getTable(this.id);
-	}
+   this.TABLE = this.getTable(this.id);
+	 //this._tableService.getTable(this.id).then(table => this.TABLE = table);
+  }
  
   addPosition(){  
-    this.createPosition(this.selectedOption);
+    this._positionService.createPosition(this.selectedOption);
   }
   
   checkOrderAsigned(){
@@ -133,7 +124,7 @@ export class TableDetailsComponent implements OnInit {
 
   //TEST OF POSITIONS
 
-  getPosition(id:number){  
+ /* getPosition(id:number){  
     var result;
     for(var i = 0; i < this.POSITIONS.length; i++){
       if(i == id)
@@ -143,7 +134,7 @@ export class TableDetailsComponent implements OnInit {
   }
 
   createPosition(offer:Offer){  
-    var position:any = new Position(this.POSITIONS.length, offer,null,1,"");
+    var position:any = new Position(this.POSITIONS.length, offer,null,"ORDERED","");
 
     this.POSITIONS.push(position);  
   }
@@ -164,7 +155,7 @@ export class TableDetailsComponent implements OnInit {
         this.POSITIONS.splice(i, i+1, position);
     } 
   } 
-
+*/
 
   //BUTTON
   onButtonClick(buttonDef) { 

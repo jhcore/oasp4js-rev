@@ -2,10 +2,10 @@ export class Offer {
   id: number;
   description: String;
   name: String;
-  state: number;
+  state: String;
   price: number;
 
-  constructor(id:number,name:String, description:String, state:number, price:number){
+  constructor(id:number,name:String, description:String, state:String, price:number){
   	this.id = id;
   	this.description = description;
   	this.name = name;
@@ -19,9 +19,9 @@ export class Position{
   offer:Offer;
   number:number;
   comment:String;
-  state:number;
+  state:String;
 
-  constructor(id:number, offer:Offer, number:number, state:number, comment:String){
+  constructor(id:number, offer:Offer, number:number, state:String, comment:String){
     this.id = id;
     this.offer = offer;
     this.number = number

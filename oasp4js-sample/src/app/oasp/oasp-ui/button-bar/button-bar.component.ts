@@ -16,16 +16,16 @@ export class ButtonBarComponent {
 
     isButtonDisabled(buttonDef) { 
         if (buttonDef && this.isFunction(buttonDef.isActive)) {
-            return !buttonDef.isActive.apply(undefined, arguments);
+            return !buttonDef.isActive.apply(this);
         } 
         if (buttonDef && this.isFunction(buttonDef.isNotActive)) {
-            return buttonDef.isNotActive.apply(undefined, arguments);
+            return buttonDef.isNotActive.apply(this);
         }
         return true;
     }
 
     isFunction(functionToCheck) {
-	 var getType = {};
-	 return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-	}
+        var getType = {};
+        return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+    } 
 } 

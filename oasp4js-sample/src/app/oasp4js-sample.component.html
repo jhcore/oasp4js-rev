@@ -1,7 +1,32 @@
-<h1>
-  {{title}}
+<h1 >
+  TEST
 </h1>
-<div class="modal-content" modal-transclude>
-	<table-mgmt-details [id]=2></table-mgmt-details>
+
+<button (click)="show()">SHOW</button>
+
+<div>
+	<modal-dialog id="modal-dialog" 
+		[hidden]=true 
+		[modal]=true
+		[TITLE]=dialog_header 
+		[BODY]=dialog_body 
+		[BUTTONS]=dialog_buttons>
+	</modal-dialog>
 </div>
  
+<!--<div class="modal-content" modal-transclude>
+	
+	<table-mgmt-search></table-mgmt-search> 
+	
+</div>
+
+<br>
+<br>
+ -->
+ <!--
+<div class="modal-content" modal-transclude> 
+
+	<table-mgmt-details [id]=TABLE.id></table-mgmt-details>
+	 
+</div>
+-->

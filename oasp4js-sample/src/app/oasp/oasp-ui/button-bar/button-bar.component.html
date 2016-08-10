@@ -1,10 +1,8 @@
-<div class="btn-group btn-group-sm" role="group">
-    <button *ngFor="let buttonDef of buttonDefs"
-            (click)="onButtonClick(buttonDef)"
-            [disabled]="isButtonDisabled(buttonDef)"
-            class="btn btn-sm btn-default">
-            <!-- TODO: Include translatable -->
-        <span data-ng-hide="isLabelTranslatable" data-ng-bind="buttonDef.label"></span>
-        <span data-ng-show="isLabelTranslatable" translate>{{buttonDef.label}}</span>
-    </button>
+<div class="btn-group btn-group-sm" role="group"> 
+    <button *ngFor="let buttonDef of buttonDefs"  
+        (click)="onButtonClick(buttonDef)"
+        [disabled]="isButtonDisabled(buttonDef)"
+        [class]="buttonDef.class">
+    	<span [hidden]="buttonDef.hidden">{{buttonDef.label}}</span>
+	</button>
 </div>

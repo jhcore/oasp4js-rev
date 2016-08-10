@@ -8,38 +8,37 @@ import { OFFERS } from './mock-offers';
 export class OfferService { 
 
   getOffer(id:number){  
-    var result;
-    for(var i = 0; i < OFFERS.length; i++){
-      if(i == id)
-        result = OFFERS[i];
-    }
-    return Promise.resolve(result);
+    return Promise.resolve(OFFERS).then(
+      tables => tables.filter(offer => offer.id === id)[0]
+    ); 
   }
 
   getOffers(){
     return Promise.resolve(OFFERS);
   }
 
-  getPaginatedOffers(pagenumber:number, pagesize:number){
+  getPaginatedOffer(pagenumber:number, pagesize:number){
     return Promise.resolve(OFFERS); //There are not pages in this mock
   }
 
-  createOffer(id:number, Offer:Offer){
-    Offer.id = id;
-    OFFERS.push(Offer); 
+  createOffer(id:number, offer:Offer){
+    offer.id = id;
+    OFFERS.push(offer); 
   }
 
-  deleteOffer(id:number){ 
-    for(var i = 0; i < OFFERS.length; i++){
-      if(i != id)
-        OFFERS.splice(i, i+1);
+  deleteOffer(offer:Offer){ 
+    var index = OFFERS.indexOf(offer);
+    if (index != -1) {
+        OFFERS.splice(index, 1);
     }
   }
 
-  saveOffer(Offer:Offer){
-    for(var i = 0; i < OFFERS.length; i++){
-      if(i != Offer.id)
-        OFFERS.splice(i, i+1, Offer);
-    } 
-  } 
+  saveOffer(offer:Offer){
+    var index = OFFERS.indexOf(offer);
+    if (index != -1) {
+        OFFERS.splice(index, 1, offer);
+    }else{
+      OFFERS.push(offer);
+    }
+  }  
 }
